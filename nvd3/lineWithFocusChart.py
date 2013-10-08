@@ -81,6 +81,9 @@ class lineWithFocusChart(NVD3Chart):
         NVD3Chart.__init__(self, **kwargs)
         height = kwargs.get('height', 450)
         width = kwargs.get('width', None)
+        number_format = kwargs.get('format', kwargs.get('number_format', '.0f'))
+        y_format = kwargs.get('x_format', number_format)
+        x_format = kwargs.get('y_format', number_format)
 
         if kwargs.get('x_is_date', False):
             self.set_date_flag(True)
@@ -88,11 +91,11 @@ class lineWithFocusChart(NVD3Chart):
             self.create_x_axis('x2Axis', format=kwargs.get('x_axis_format', '%d %b %Y %H %S'), date=True)
             self.set_custom_tooltip_flag(True)
         else:
-            self.create_x_axis('xAxis', format=kwargs.get('x_axis_format', '.2f'))
-            self.create_x_axis('x2Axis', format=kwargs.get('x_axis_format', '.2f'))
+            self.create_x_axis('xAxis', format=kwargs.get('x_axis_format', x_format))
+            self.create_x_axis('x2Axis', format=kwargs.get('x_axis_format', x_format))
 
-        self.create_y_axis('yAxis', format=kwargs.get('y_axis_format', '.2f'))
-        self.create_y_axis('y2Axis', format=kwargs.get('y_axis_format', '.2f'))
+        self.create_y_axis('yAxis', format=kwargs.get('y_axis_format', y_format))
+        self.create_y_axis('y2Axis', format=kwargs.get('y_axis_format', y_format))
 
         # must have a specified height, otherwise it superimposes both chars
         if height:
