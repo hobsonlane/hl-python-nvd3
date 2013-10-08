@@ -84,17 +84,18 @@ class lineWithFocusChart(NVD3Chart):
         x_is_date = kwargs.get('x_is_date', False) or False
         y_is_date = kwargs.get('y_is_date', False) or False
         x_axis_format = kwargs.get('x_axis_format', '%d %b %Y %H %S' if x_is_date else '.2f')
-        y_axis_format = kwargs.get('y_axis_format', '%d %b %Y %H %S' if x_is_date else '.2f')
+        y_axis_format = kwargs.get('y_axis_format', '%d %b %Y %H %S' if y_is_date else '.2f')
 
         self.set_date_flag(x_is_date)
         self.create_x_axis('xAxis', format=x_axis_format, date=x_is_date)
         self.create_x_axis('x2Axis', format=x_axis_format, date=x_is_date)
         self.set_custom_tooltip_flag(x_is_date)
 
+        # date argument probably not supported by nvd3 for yAxis and y2Axis
         self.create_y_axis('yAxis', format=y_axis_format, date=y_is_date)
         self.create_y_axis('y2Axis', format=y_axis_format, date=y_is_date)
 
-        # must have a specified height, otherwise it superimposes both chars
+        # must have a specified height, otherwise it superimposes both charts
         if height:
             self.set_graph_height(height)
         if width:
