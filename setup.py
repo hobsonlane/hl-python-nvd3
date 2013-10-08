@@ -106,14 +106,14 @@ def find_package_data(where='.', package='',
 
 
 setup(
-    name='python-nvd3',
+    name='hl-python-nvd3',
     version=get_version(),
-    description="Python NVD3 - Chart Library for d3.js",
+    description="Hobson Lane's Fork of Python NVD3 - Python bindings to nvd3.js a Chart Library for d3.js",
     long_description=read('README.rst'),
     keywords='plot, graph, nvd3, d3',
-    author='Belaid Arezqui',
+    author='Hobson Lane',
     author_email='areski@gmail.com',
-    url='http://github.com/areski/python-nvd3',
+    url='http://github.com/hosbonlane/python-nvd3',
     license='MIT license',
     py_modules=['nvd3'],
     namespace_packages=[],
