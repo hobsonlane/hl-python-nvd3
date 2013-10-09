@@ -82,6 +82,7 @@ class NVD3Chart:
     model = ''
     d3_select_extra = ''
     x_axis_date = False
+    y_axis_date = False
     resize = False
     stacked = False
     template_page_nvd3 = None
@@ -469,14 +470,13 @@ class NVD3Chart:
         if date:
             self.dateformat = format
             axis["tickFormat"] = "function(d) { return d3.time.format('%s')(new Date(parseInt(d))) }\n" % self.dateformat
-            #flag is the x Axis is a date
             if name[0] == 'x':
                 self.x_axis_date = True
 
         #Add new axis to list of axis
         self.axislist[name] = axis
 
-    def create_y_axis(self, name, label=None, format=None, custom_format=False):
+    def create_y_axis(self, name, label=None, format=None, date=False, custom_format=False):
         """
         Create Y-axis
         """
@@ -490,6 +490,13 @@ class NVD3Chart:
 
         if label:
             axis["axisLabel"] = label
+
+        #date format : see https://github.com/mbostock/d3/wiki/Time-Formatting
+        if date:
+            self.dateformat = format
+            axis["tickFormat"] = "function(d) { return d3.time.format('%s')(new Date(parseInt(d))) }\n" % self.dateformat
+            if name[0] == 'y':
+                self.y_axis_date = True
 
         #Add new axis to list of axis
         self.axislist[name] = axis
