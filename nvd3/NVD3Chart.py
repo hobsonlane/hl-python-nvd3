@@ -100,6 +100,8 @@ class NVD3Chart:
     x_axis_format = ''
     show_legend = True
     show_labels = True
+    # if no width is specified, the aspect ratio will be used to compute a width
+    aspect_ratio = 1.5  # 4:3 = 35 mm camera or youtube video, 3:2 or 16:9 = widescreen handheld camera, 1.85:1 and 2.39:1 are movie theaters
 
     def __init__(self, **kwargs):
         """
@@ -254,6 +256,8 @@ class NVD3Chart:
     def set_graph_height(self, height):
         """Set Graph height"""
         self.height = str(height)
+        if not self.width:
+            self.width = '%.0f' % (float(self.height) * self.aspect_ratio)
 
     def set_graph_width(self, width):
         """Set Graph width"""
