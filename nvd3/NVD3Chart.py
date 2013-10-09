@@ -12,6 +12,7 @@ Project location : https://github.com/areski/python-nvd3
 from optparse import OptionParser
 from string import Template
 import json
+from future import division
 
 template_content_nvd3 = """
 $container
@@ -100,9 +101,11 @@ class NVD3Chart:
     x_axis_format = ''
     show_legend = True
     show_labels = True
+    # 4:3 = 35 mm camera or old youtube video, 3:2 or 16:9 = widescreen HD handheld camera, 1.85:1 and 2.39:1 are movie theaters
+    ASPECT_RATIOS = { 'go': 1.6180, 'th': 1.85, 'yo': 4. / 3, 'hd': 16./ 9 }  # { 'golden': 1.6180, 'theater': 1.85, 'youtube': 4./3, 'hd': 16./9 }
     # if no width is specified, the aspect ratio will be used to compute a width
-    aspect_ratio = 1.5  # 4:3 = 35 mm camera or youtube video, 3:2 or 16:9 = widescreen handheld camera, 1.85:1 and 2.39:1 are movie theaters
-
+    aspect_ratio = 16./9  
+    
     def __init__(self, **kwargs):
         """
         Constructor
@@ -124,6 +127,14 @@ class NVD3Chart:
         self.resize = kwargs.get('resize', False)
         self.show_legend = kwargs.get("show_legend", True)
         self.show_labels = kwargs.get("show_labels", True)
+
+        self.aspect_ratio = kwargs.get("aspect_ratio") or kwargs.get("aspect") or kwargs.get("ratio", 1.6180)
+        # allow user to specify aspect ratio as a float or string
+        if isinstance(self.aspect_ratio, basestring):
+            try:
+                self.aspect_ratio = float(eval(self.aspect_ratio.lower().replace(':', '/').replace('x', '/').replace('^', '**')))
+            except:
+                self.aspect_ratio = self.ASPECT_RATIOS.get(self.aspect_ratio.lower().strip()[:2], 16. / 9)
 
         #CDN http://cdnjs.com/libraries/nvd3/ needs to make sure it's up to date
         self.header_css = [
